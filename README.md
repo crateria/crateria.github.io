@@ -4,24 +4,20 @@
   </a>
 </p>
 
-<p align="center">
-  <img src="assets/icon.png" width="72" height="72" alt="Crateria">
-</p>
-
 # Crateria
 
 Organization map for [github.com/crateria](https://github.com/crateria). This repository does not contain product source code.
 
 ## Projects
 
-| | Repository | Description |
-|---|------------|-------------|
-| <img src="assets/trance.png" width="40" height="40" alt=""> | [trance](https://github.com/crateria/trance) | Wayland screensaver (daemon, CLI, TUI, COSMIC applet) |
-| <img src="assets/trance-plugins.png" width="40" height="40" alt=""> | [trance-plugins](https://github.com/crateria/trance-plugins) | Official screensaver effects |
-| <img src="assets/morphball.png" width="40" height="40" alt=""> | [morphball](https://github.com/crateria/morphball) | Archive manager (CLI + TUI) |
-| <img src="assets/crateria.png" width="40" height="40" alt=""> | [packages](https://github.com/crateria/packages) | APT and DNF package repositories |
-| | [brand](https://github.com/crateria/brand) | Icons and brand assets |
-| | [.github](https://github.com/crateria/.github) | Org profile and community health files |
+| Repository | Description |
+|------------|-------------|
+| [trance](https://github.com/crateria/trance) | Wayland screensaver (daemon, CLI, TUI, COSMIC applet) |
+| [trance-plugins](https://github.com/crateria/trance-plugins) | Official screensaver effects |
+| [morphball](https://github.com/crateria/morphball) | Archive manager (CLI + TUI) |
+| [packages](https://github.com/crateria/packages) | APT and DNF package repositories |
+| [brand](https://github.com/crateria/brand) | Brand kit (header source of truth) |
+| [.github](https://github.com/crateria/.github) | Org profile and community health files |
 
 ## Install
 
