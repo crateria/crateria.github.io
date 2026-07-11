@@ -6,19 +6,21 @@
     <title>Crateria Documentation Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #080a0c;
-            --sidebar-bg: #0f1216;
-            --card-bg: rgba(18, 22, 28, 0.6);
-            --card-border: rgba(255, 255, 255, 0.04);
+            --bg-color: #07090b;
+            --sidebar-bg: #0c0f12;
+            --card-bg: rgba(16, 20, 26, 0.6);
+            --card-border: rgba(255, 255, 255, 0.05);
             --text-primary: #f3f4f6;
             --text-secondary: #9ca3af;
             --accent-primary: #ff8541; /* Crateria brand orange */
             --accent-glow: rgba(255, 133, 65, 0.15);
+            --accent-glow-strong: rgba(255, 133, 65, 0.4);
             --font-main: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
+            --font-mono: 'Fira Code', monospace;
+            --sidebar-width: 290px;
         }
 
         * {
@@ -36,12 +38,12 @@
             overflow-x: hidden;
         }
 
-        /* Sidebar Styling */
+        /* Sidebar Design */
         .sidebar {
-            width: 280px;
+            width: var(--sidebar-width);
             background-color: var(--sidebar-bg);
             border-right: 1px solid var(--card-border);
-            padding: 2rem 1.5rem;
+            padding: 2.5rem 1.5rem;
             display: flex;
             flex-direction: column;
             gap: 2rem;
@@ -49,34 +51,71 @@
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            z-index: 10;
         }
 
         .logo-area {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.25rem;
         }
 
         .logo-title {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
             color: var(--text-primary);
         }
 
         .logo-title span {
             color: var(--accent-primary);
+            text-shadow: 0 0 15px var(--accent-glow-strong);
         }
 
         .logo-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
+            font-weight: 600;
         }
 
-        .nav-list {
-            list-style: none;
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.65rem 1rem 0.65rem 2.25rem;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        /* Sidebar Navigation */
+        .nav-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
@@ -84,47 +123,59 @@
 
         .nav-header {
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent-primary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             margin-top: 1rem;
             margin-bottom: 0.25rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
         }
 
         .nav-item {
-            padding: 0.6rem 0.8rem;
+            padding: 0.55rem 0.8rem;
             border-radius: 8px;
             color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .nav-item:hover, .nav-item.active {
             color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.025);
         }
 
         .nav-item.active {
-            border-left: 2px solid var(--accent-primary);
+            border-left: 3px solid var(--accent-primary);
             border-radius: 0 8px 8px 0;
-            padding-left: 0.68rem;
+            padding-left: 0.6rem;
+            font-weight: 600;
         }
 
-        /* Main Content Styling */
+        /* Main Area Layout */
         .main-content {
-            margin-left: 280px;
+            margin-left: var(--sidebar-width);
             flex-grow: 1;
-            padding: 3rem 4rem;
+            padding: 4rem 5rem;
             max-width: 1000px;
             width: 100%;
         }
 
         .doc-section {
             display: none;
-            animation: fadeIn 0.4s ease forwards;
+            animation: fadeIn 0.35s ease forwards;
         }
 
         .doc-section.active {
@@ -136,61 +187,146 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Typography */
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             font-weight: 700;
             letter-spacing: -0.03em;
             margin-bottom: 1rem;
+            color: var(--text-primary);
             border-bottom: 1px solid var(--card-border);
             padding-bottom: 0.75rem;
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 600;
             margin-top: 2.5rem;
             margin-bottom: 1rem;
             color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
         p {
             color: var(--text-secondary);
             font-size: 1rem;
-            line-height: 1.7;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Code Blocks & Copy Widgets */
+        .code-container {
+            position: relative;
             margin-bottom: 1.5rem;
         }
 
         .code-block {
-            background: #0c0e12;
+            background: #090b0e;
             border: 1px solid var(--card-border);
             border-radius: 12px;
             padding: 1.25rem 1.5rem;
             font-family: var(--font-mono);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #e2e8f0;
             overflow-x: auto;
-            margin-bottom: 1.5rem;
-            position: relative;
+            line-height: 1.6;
         }
 
-        .code-header {
-            font-size: 0.75rem;
+        .copy-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.75rem;
+            font-family: var(--font-main);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-button:hover {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: 0 4px 10px var(--accent-glow);
+        }
+
+        /* Interactive Configurator widget */
+        .configurator-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .configurator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            color: var(--accent-primary);
         }
 
+        .input-control {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-control:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-group input {
+            accent-color: var(--accent-primary);
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
+            margin: 2rem 0;
         }
 
         th, td {
             text-align: left;
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             border-bottom: 1px solid var(--card-border);
             font-size: 0.95rem;
         }
@@ -198,6 +334,9 @@
         th {
             font-weight: 600;
             color: var(--accent-primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
             background: rgba(255, 255, 255, 0.01);
         }
 
@@ -205,20 +344,34 @@
             color: var(--text-secondary);
         }
 
-        .highlight {
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
         .badge {
-            background: rgba(255, 133, 65, 0.1);
+            background: rgba(255, 133, 65, 0.08);
             color: var(--accent-primary);
-            padding: 0.2rem 0.6rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 6px;
             font-size: 0.75rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+            .configurator-card {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -229,210 +382,294 @@
             <div class="logo-subtitle">Documentation Hub</div>
         </div>
 
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchBar" placeholder="Search sections..." oninput="performSearch()">
+        </div>
+
         <nav>
-            <div class="nav-header">Getting Started</div>
-            <ul class="nav-list">
-                <li class="nav-item active" onclick="switchSection('intro')">Introduction</li>
-                <li class="nav-item" onclick="switchSection('install')">Installation</li>
-            </ul>
+            <div class="nav-group">
+                <div class="nav-header">Getting Started</div>
+                <ul class="nav-list">
+                    <li class="nav-item active" id="nav-intro" onclick="switchSection('intro')">Introduction</li>
+                    <li class="nav-item" id="nav-install" onclick="switchSection('install')">Installation</li>
+                </ul>
+            </div>
 
-            <div class="nav-header">Trance Daemon</div>
-            <ul class="nav-list">
-                <li class="nav-item" onclick="switchSection('trance-config')">Configuration</li>
-                <li class="nav-item" onclick="switchSection('trance-dbus')">D-Bus API Reference</li>
-                <li class="nav-item" onclick="switchSection('trance-plugins')">Plugin Development</li>
-            </ul>
+            <div class="nav-group">
+                <div class="nav-header">Trance Daemon</div>
+                <ul class="nav-list">
+                    <li class="nav-item" id="nav-trance-config" onclick="switchSection('trance-config')">Configuration Helper</li>
+                    <li class="nav-item" id="nav-trance-dbus" onclick="switchSection('trance-dbus')">D-Bus API Reference</li>
+                    <li class="nav-item" id="nav-trance-plugins" onclick="switchSection('trance-plugins')">Plugin Development</li>
+                </ul>
+            </div>
 
-            <div class="nav-header">Morphball Archiver</div>
-            <ul class="nav-list">
-                <li class="nav-item" onclick="switchSection('morphball-usage')">CLI & TUI Usage</li>
-                <li class="nav-item" onclick="switchSection('morphball-security')">Sandboxing Details</li>
-            </ul>
+            <div class="nav-group">
+                <div class="nav-header">Morphball Archiver</div>
+                <ul class="nav-list">
+                    <li class="nav-item" id="nav-morphball-usage" onclick="switchSection('morphball-usage')">CLI & TUI Usage</li>
+                    <li class="nav-item" id="nav-morphball-security" onclick="switchSection('morphball-security')">Sandboxing Engine</li>
+                </ul>
+            </div>
         </nav>
     </div>
 
     <div class="main-content">
-        <!-- Introduction -->
+        <!-- Introduction Section -->
         <section id="intro" class="doc-section active">
             <h1>Introduction</h1>
-            <p>Welcome to the Crateria ecosystem documentation. Crateria is a suite of modern, security-first Linux desktop tools written entirely in Rust.</p>
-            <p>Our focus is on high performance, memory safety, and modern desktop integrations (such as Wayland and the COSMIC Desktop environment).</p>
-            <h2>The Suite</h2>
+            <p>Welcome to the central documentation portal for the Crateria open-source software suite. Crateria delivers high-performance, security-hardened utility programs built entirely in Rust.</p>
+            <p>Our tools feature native integrations with Wayland and the COSMIC Desktop environment, alongside state-of-the-art sandboxing technologies.</p>
+            
+            <h2>Product Directory</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Product</th>
+                        <th>Application</th>
                         <th>Type</th>
-                        <th>Description</th>
+                        <th>Architecture Focus</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="highlight">Trance</td>
-                        <td>Daemon / UI</td>
-                        <td>A Wayland-native modular screensaver system with COSMIC support.</td>
+                        <td style="color:var(--text-primary); font-weight:600">Trance</td>
+                        <td>Daemon / UIs</td>
+                        <td>Wayland-native screensaver runner with isolated dynamic loaders.</td>
                     </tr>
                     <tr>
-                        <td class="highlight">Morphball</td>
+                        <td style="color:var(--text-primary); font-weight:600">Morphball</td>
                         <td>CLI / TUI</td>
-                        <td>A secure, multi-threaded archive manager with Landlock sandboxing.</td>
+                        <td>Secure archiver using Landlock-enforced decompression sandboxes.</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Installation -->
+        <!-- Installation Section -->
         <section id="install" class="doc-section">
-            <h1>Installation</h1>
-            <p>Crateria applications are distributed through signed native package repositories for APT and DNF package managers.</p>
+            <h1>System Installation</h1>
+            <p>Install Crateria packages directly using signed repositories for APT and DNF package managers.</p>
             
-            <h2>Fedora (DNF)</h2>
-            <div class="code-block">
-                <div class="code-header">Shell Command</div>
-                sudo curl -fsSL https://crateria.github.io/packages/rpm/crateria.repo -o /etc/yum.repos.d/crateria.repo<br>
-                sudo dnf install trance morphball
+            <h2>Fedora (DNF Setup)</h2>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('dnfInstall')">Copy</button>
+                <pre class="code-block" id="dnfInstall">sudo curl -fsSL https://crateria.github.io/packages/rpm/crateria.repo -o /etc/yum.repos.d/crateria.repo
+sudo dnf install trance morphball</pre>
             </div>
 
-            <h2>Debian / Ubuntu / Pop!_OS (APT)</h2>
-            <div class="code-block">
-                <div class="code-header">Shell Command</div>
-                sudo mkdir -p /etc/apt/keyrings<br>
-                sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg -o /etc/apt/keyrings/crateria.gpg<br>
-                echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/crateria.list<br>
-                sudo apt update && sudo apt install trance morphball
+            <h2>Debian / Ubuntu / Pop!_OS (APT Setup)</h2>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('aptInstall')">Copy</button>
+                <pre class="code-block" id="aptInstall">sudo mkdir -p /etc/apt/keyrings
+sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg -o /etc/apt/keyrings/crateria.gpg
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/crateria.list
+sudo apt update && sudo apt install trance morphball</pre>
             </div>
         </section>
 
-        <!-- Trance Configuration -->
+        <!-- Trance Configuration Helper Section -->
         <section id="trance-config" class="doc-section">
-            <h1>Trance Configuration</h1>
-            <p>Trance is configured via a TOML file located at <code class="highlight">~/.config/trance/config.toml</code>.</p>
-            <h2>Configuration Options</h2>
-            <div class="code-block">
-                <div class="code-header">~/.config/trance/config.toml</div>
-                idle_enabled = true<br>
-                idle_timeout_mins = 5<br>
-                active_saver = "beams"<br>
-                show_fps_overlay = false<br>
-                render_scale = 1.0
+            <h1>Configuration Helper</h1>
+            <p>Trance uses a TOML file at <code style="color:var(--accent-primary)">~/.config/trance/config.toml</code>. Toggle options below to dynamically generate your configuration file.</p>
+            
+            <div class="configurator-card">
+                <div class="configurator-form">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="cfgIdleEnabled" checked onchange="updateToml()">
+                        Enable Idle Monitoring
+                    </label>
+                    <div class="form-group">
+                        <label for="cfgTimeout">Idle Timeout (Minutes)</label>
+                        <input type="number" class="input-control" id="cfgTimeout" value="5" min="1" oninput="updateToml()">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfgActiveSaver">Active Screensaver</label>
+                        <select class="input-control" id="cfgActiveSaver" onchange="updateToml()">
+                            <option value="beams" selected>Beams</option>
+                            <option value="bursts">Bursts</option>
+                            <option value="chaos">Chaos</option>
+                            <option value="cosmos">Cosmos</option>
+                            <option value="glyphs">Glyphs</option>
+                        </select>
+                    </div>
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="cfgShowFps" onchange="updateToml()">
+                        Show FPS Overlay
+                    </label>
+                </div>
+                <div class="code-container" style="margin-bottom: 0;">
+                    <button class="copy-button" onclick="copyCode('generatedToml')">Copy TOML</button>
+                    <pre class="code-block" id="generatedToml" style="min-height: 180px;"></pre>
+                </div>
             </div>
         </section>
 
-        <!-- Trance D-Bus API -->
+        <!-- Trance D-Bus API Reference Section -->
         <section id="trance-dbus" class="doc-section">
             <h1>D-Bus API Reference</h1>
-            <p>The screensaver daemon registers the <code class="highlight">io.github.ubermetroid.trance</code> service on the D-Bus Session Bus.</p>
-            <h2>Interfaces</h2>
+            <p>The screensaver daemon hosts control methods over the session bus on interface name <code style="color:var(--text-primary)">io.github.ubermetroid.trance</code>.</p>
+            
             <table>
                 <thead>
                     <tr>
-                        <th>Interface</th>
-                        <th>Method</th>
-                        <th>Type</th>
+                        <th>Method Signature</th>
+                        <th>Security</th>
                         <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>io.github.ubermetroid.trance</td>
-                        <td class="highlight">get_status()</td>
-                        <td>Method</td>
-                        <td>Returns a map of the current daemon states.</td>
+                        <td><code>get_status() -> (a{sv})</code></td>
+                        <td><span class="badge">Unprivileged</span></td>
+                        <td>Returns a map of the current daemon runtime and configurations.</td>
                     </tr>
                     <tr>
-                        <td>io.github.ubermetroid.trance</td>
-                        <td class="highlight">enable()</td>
-                        <td>Method <span class="badge">Privileged</span></td>
-                        <td>Enables screensaver monitoring. Requires control-peer authorization.</td>
+                        <td><code>enable()</code></td>
+                        <td><span class="badge">Privileged</span></td>
+                        <td>Enables idle detection triggers. Authenticates sender via control-peer UID.</td>
                     </tr>
                     <tr>
-                        <td>org.freedesktop.ScreenSaver</td>
-                        <td class="highlight">SetActive(bool)</td>
-                        <td>Method <span class="badge">Privileged</span></td>
-                        <td>Forces screensaver state. Requires control-peer authorization.</td>
+                        <td><code>disable()</code></td>
+                        <td><span class="badge">Privileged</span></td>
+                        <td>Deactivates idle triggers and terminates any active screensavers.</td>
+                    </tr>
+                    <tr>
+                        <td><code>org.freedesktop.ScreenSaver::SetActive(bool active)</code></td>
+                        <td><span class="badge">Privileged</span></td>
+                        <td>Forces screensaver activation. Enforces control-peer UID validations.</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Trance Plugins -->
+        <!-- Trance Plugin Development Section -->
         <section id="trance-plugins" class="doc-section">
             <h1>Plugin Development</h1>
-            <p>Trance screensavers are modular plugins compiled as dynamic library assets. Developers can build custom effects using the <code class="highlight">trance-api</code> library interface.</p>
-            <h2>Basic Boilerplate</h2>
-            <div class="code-block">
-                <div class="code-header">src/lib.rs</div>
-                use trance_api::{Plugin, PluginContext, RegisterPlugin};<br><br>
-                struct CustomEffect;<br><br>
-                impl Plugin for CustomEffect {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;fn render(&mut self, ctx: &mut PluginContext) {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Your custom Wayland rendering code here<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                }
+            <p>Custom screensavers are compiled as dynamic shared libraries and loaded at runtime. Implement the interface defined in the <code style="color:var(--accent-primary)">trance-api</code> crate.</p>
+            
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('pluginExample')">Copy Boilerplate</button>
+                <pre class="code-block" id="pluginExample">// src/lib.rs
+use trance_api::{Plugin, PluginContext, RegisterPlugin};
+
+struct CustomEffect;
+
+impl Plugin for CustomEffect {
+    fn render(&mut self, ctx: &mut PluginContext) {
+        // Draw directly to the Wayland surface context
+    }
+}
+
+// Register the entry point hook
+trance_api::register_plugin!(CustomEffect);</pre>
             </div>
         </section>
 
-        <!-- Morphball Usage -->
+        <!-- Morphball CLI & TUI Usage Section -->
         <section id="morphball-usage" class="doc-section">
-            <h1>Morphball Usage</h1>
-            <p>Morphball provides a secure command-line tool and an interactive terminal user interface (TUI) for archive compression and extraction.</p>
-            <h2>CLI Commands</h2>
+            <h1>CLI & TUI Usage</h1>
+            <p>Morphball supports high-performance file compression, extraction, and archive validation.</p>
+            
+            <h2>Command Reference</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Command</th>
-                        <th>Arguments</th>
+                        <th>Command Syntax</th>
                         <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="highlight">pack</td>
-                        <td>&lt;source&gt; &lt;archive&gt;</td>
-                        <td>Compresses files/directories into ZIP, 7z, or tar.gz format.</td>
+                        <td><code>morphball pack &lt;src&gt; &lt;archive&gt;</code></td>
+                        <td>Creates a new archive. Append metadata indexes using <code>MORPHBALL_RESERVES=1</code>.</td>
                     </tr>
                     <tr>
-                        <td class="highlight">unpack</td>
-                        <td>&lt;archive&gt; [output_dir]</td>
-                        <td>Securely extracts archive formats.</td>
+                        <td><code>morphball unpack &lt;archive&gt; [out_dir]</code></td>
+                        <td>Extracts files securely under a Landlock sandbox layer.</td>
                     </tr>
                     <tr>
-                        <td class="highlight">doctor</td>
-                        <td>[archive]</td>
-                        <td>Performs integrity checks and healing on self-healing archives.</td>
+                        <td><code>morphball doctor [archive]</code></td>
+                        <td>Analyzes archive structures and restores corrupted blocks.</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Morphball Sandboxing -->
+        <!-- Morphball Sandboxing Engine Section -->
         <section id="morphball-security" class="doc-section">
-            <h1>Sandboxing Details</h1>
-            <p>Decompression engines are notoriously complex and present a large surface area for memory safety vulnerabilities. Morphball deploys defense-in-depth measures:</p>
-            <h2>Landlock LSM Sandboxing</h2>
-            <p>During extraction, Morphball enforces Landlock sandboxing on the worker thread. It dynamically restricts process capabilities so that:</p>
+            <h1>Sandboxing Engine</h1>
+            <p>Decompression operations run under a local best-effort **Landlock LSM Sandbox** configuration on Linux.</p>
+            
+            <h2>How it works:</h2>
             <ul>
-                <li>Write access is strictly bound to the target output directory.</li>
-                <li>Read access is limited to the input archive and essential system dynamic libraries.</li>
-                <li>All other directory write and network operations are blocked.</li>
+                <li>The process initializes a custom Linux ruleset before parsing the archive headers.</li>
+                <li>Write access is strictly allowed only within the designated output directory.</li>
+                <li>Read-only handles are restricted to the source archive file and essential system linker paths (such as <code>/lib</code> and <code>/usr/lib</code>).</li>
+                <li>Any network interactions or file creation calls outside the target directory are terminated by the kernel.</li>
             </ul>
         </section>
     </div>
 
     <script>
+        const sections = ['intro', 'install', 'trance-config', 'trance-dbus', 'trance-plugins', 'morphball-usage', 'morphball-security'];
+
         function switchSection(id) {
-            // Deactivate active nav item
+            // Remove active classes
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            // Deactivate active section
             document.querySelectorAll('.doc-section').forEach(sec => sec.classList.remove('active'));
 
-            // Activate target nav item
-            const targetItem = Array.from(document.querySelectorAll('.nav-item')).find(item => item.textContent.trim().toLowerCase() === id.replace('-', ' ').toLowerCase() || item.getAttribute('onclick').includes(id));
-            if (targetItem) targetItem.classList.add('active');
+            // Set active target
+            const activeItem = document.getElementById('nav-' + id);
+            if (activeItem) activeItem.classList.add('active');
 
-            // Activate target section
-            document.getElementById(id).classList.add('active');
+            const activeSection = document.getElementById(id);
+            if (activeSection) activeSection.classList.add('active');
         }
+
+        function copyCode(id) {
+            const codeText = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btn = document.querySelector(`#${id} ~ .copy-button`) || document.querySelector(`[onclick="copyCode('${id}')"]`);
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                }, 2000);
+            });
+        }
+
+        function updateToml() {
+            const idle = document.getElementById('cfgIdleEnabled').checked;
+            const timeout = document.getElementById('cfgTimeout').value;
+            const saver = document.getElementById('cfgActiveSaver').value;
+            const fps = document.getElementById('cfgShowFps').checked;
+
+            const toml = `idle_enabled = ${idle}\n` +
+                         `idle_timeout_mins = ${timeout}\n` +
+                         `active_saver = "${saver}"\n` +
+                         `show_fps_overlay = ${fps}\n` +
+                         `render_scale = 1.0\n`;
+            
+            document.getElementById('generatedToml').innerText = toml;
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchBar').value.toLowerCase();
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize helper
+        updateToml();
     </script>
 </body>
 </html>
