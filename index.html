@@ -393,6 +393,7 @@
                 <ul class="nav-list">
                     <li class="nav-item active" id="nav-intro" onclick="switchSection('intro')">Introduction</li>
                     <li class="nav-item" id="nav-install" onclick="switchSection('install')">Installation</li>
+                    <li class="nav-item" id="nav-about" onclick="switchSection('about')">About</li>
                 </ul>
             </div>
 
@@ -416,6 +417,9 @@
     </div>
 
     <div class="main-content">
+        <div style="margin-bottom: 2.5rem; text-align: center;">
+            <img src="assets/crateria-header.jpg" alt="Crateria Brand Header" style="width: 100%; max-width: 720px; border-radius: 12px; border: 1px solid var(--card-border); display: block; margin: 0 auto;">
+        </div>
         <!-- Introduction Section -->
         <section id="intro" class="doc-section active">
             <h1>Introduction</h1>
@@ -466,6 +470,54 @@ sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg -o 
 echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/crateria.list
 sudo apt update && sudo apt install trance morphball</pre>
             </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="doc-section">
+            <h1>About Crateria</h1>
+            <p>Crateria is a project dedicated to building a memory-safe, security-hardened Linux desktop utility suite. All core components are written in Rust and follow a strict privilege-separation model.</p>
+            
+            <h2>Organization Map</h2>
+            <p>The Crateria ecosystem is divided into the following specialized repositories:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Repository</th>
+                        <th>Description</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight"><a href="https://github.com/crateria/trance" style="color:var(--text-primary); text-decoration:none;">trance</a></td>
+                        <td>Screensaver daemon & Wayland client components.</td>
+                        <td>Core Application</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight"><a href="https://github.com/crateria/morphball" style="color:var(--text-primary); text-decoration:none;">morphball</a></td>
+                        <td>Secure file archiver featuring Landlock sandboxes.</td>
+                        <td>Core Application</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight"><a href="https://github.com/crateria/packages" style="color:var(--text-primary); text-decoration:none;">packages</a></td>
+                        <td>APT and DNF package distribution repository.</td>
+                        <td>Distribution</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight"><a href="https://github.com/crateria/trance-plugins" style="color:var(--text-primary); text-decoration:none;">trance-plugins</a></td>
+                        <td>Modular screen saver dynamic library plugins.</td>
+                        <td>Extensions</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight"><a href="https://github.com/crateria/brand" style="color:var(--text-primary); text-decoration:none;">brand</a></td>
+                        <td>Organization assets and design files.</td>
+                        <td>Design</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2>Contributing & Policies</h2>
+            <p>Development is hosted publicly on GitHub. Please submit pull requests to the individual project repositories. Contributions are governed by the Apache-2.0 license and the organization contributing guides.</p>
         </section>
 
         <!-- Trance Configuration Helper Section -->
@@ -612,7 +664,7 @@ trance_api::register_plugin!(CustomEffect);</pre>
     </div>
 
     <script>
-        const sections = ['intro', 'install', 'trance-config', 'trance-dbus', 'trance-plugins', 'morphball-usage', 'morphball-security'];
+        const sections = ['intro', 'install', 'about', 'trance-config', 'trance-dbus', 'trance-plugins', 'morphball-usage', 'morphball-security'];
 
         function switchSection(id) {
             // Remove active classes
