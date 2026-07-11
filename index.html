@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crateria Documentation Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080a0c;
+            --sidebar-bg: #0f1216;
+            --card-bg: rgba(18, 22, 28, 0.6);
+            --card-border: rgba(255, 255, 255, 0.04);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-primary: #ff8541; /* Crateria brand orange */
+            --accent-glow: rgba(255, 133, 65, 0.15);
+            --font-main: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            flex-shrink: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .logo-title span {
+            color: var(--accent-primary);
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-header {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item {
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-item.active {
+            border-left: 2px solid var(--accent-primary);
+            border-radius: 0 8px 8px 0;
+            padding-left: 0.68rem;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 3rem 4rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .doc-section {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .doc-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.75rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .code-block {
+            background: #0c0e12;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .code-header {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 0.95rem;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .badge {
+            background: rgba(255, 133, 65, 0.1);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo-area">
+            <div class="logo-title">Crateria<span>.</span></div>
+            <div class="logo-subtitle">Documentation Hub</div>
+        </div>
+
+        <nav>
+            <div class="nav-header">Getting Started</div>
+            <ul class="nav-list">
+                <li class="nav-item active" onclick="switchSection('intro')">Introduction</li>
+                <li class="nav-item" onclick="switchSection('install')">Installation</li>
+            </ul>
+
+            <div class="nav-header">Trance Daemon</div>
+            <ul class="nav-list">
+                <li class="nav-item" onclick="switchSection('trance-config')">Configuration</li>
+                <li class="nav-item" onclick="switchSection('trance-dbus')">D-Bus API Reference</li>
+                <li class="nav-item" onclick="switchSection('trance-plugins')">Plugin Development</li>
+            </ul>
+
+            <div class="nav-header">Morphball Archiver</div>
+            <ul class="nav-list">
+                <li class="nav-item" onclick="switchSection('morphball-usage')">CLI & TUI Usage</li>
+                <li class="nav-item" onclick="switchSection('morphball-security')">Sandboxing Details</li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Introduction -->
+        <section id="intro" class="doc-section active">
+            <h1>Introduction</h1>
+            <p>Welcome to the Crateria ecosystem documentation. Crateria is a suite of modern, security-first Linux desktop tools written entirely in Rust.</p>
+            <p>Our focus is on high performance, memory safety, and modern desktop integrations (such as Wayland and the COSMIC Desktop environment).</p>
+            <h2>The Suite</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">Trance</td>
+                        <td>Daemon / UI</td>
+                        <td>A Wayland-native modular screensaver system with COSMIC support.</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">Morphball</td>
+                        <td>CLI / TUI</td>
+                        <td>A secure, multi-threaded archive manager with Landlock sandboxing.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Installation -->
+        <section id="install" class="doc-section">
+            <h1>Installation</h1>
+            <p>Crateria applications are distributed through signed native package repositories for APT and DNF package managers.</p>
+            
+            <h2>Fedora (DNF)</h2>
+            <div class="code-block">
+                <div class="code-header">Shell Command</div>
+                sudo curl -fsSL https://crateria.github.io/packages/rpm/crateria.repo -o /etc/yum.repos.d/crateria.repo<br>
+                sudo dnf install trance morphball
+            </div>
+
+            <h2>Debian / Ubuntu / Pop!_OS (APT)</h2>
+            <div class="code-block">
+                <div class="code-header">Shell Command</div>
+                sudo mkdir -p /etc/apt/keyrings<br>
+                sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg -o /etc/apt/keyrings/crateria.gpg<br>
+                echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/crateria.list<br>
+                sudo apt update && sudo apt install trance morphball
+            </div>
+        </section>
+
+        <!-- Trance Configuration -->
+        <section id="trance-config" class="doc-section">
+            <h1>Trance Configuration</h1>
+            <p>Trance is configured via a TOML file located at <code class="highlight">~/.config/trance/config.toml</code>.</p>
+            <h2>Configuration Options</h2>
+            <div class="code-block">
+                <div class="code-header">~/.config/trance/config.toml</div>
+                idle_enabled = true<br>
+                idle_timeout_mins = 5<br>
+                active_saver = "beams"<br>
+                show_fps_overlay = false<br>
+                render_scale = 1.0
+            </div>
+        </section>
+
+        <!-- Trance D-Bus API -->
+        <section id="trance-dbus" class="doc-section">
+            <h1>D-Bus API Reference</h1>
+            <p>The screensaver daemon registers the <code class="highlight">io.github.ubermetroid.trance</code> service on the D-Bus Session Bus.</p>
+            <h2>Interfaces</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Interface</th>
+                        <th>Method</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>io.github.ubermetroid.trance</td>
+                        <td class="highlight">get_status()</td>
+                        <td>Method</td>
+                        <td>Returns a map of the current daemon states.</td>
+                    </tr>
+                    <tr>
+                        <td>io.github.ubermetroid.trance</td>
+                        <td class="highlight">enable()</td>
+                        <td>Method <span class="badge">Privileged</span></td>
+                        <td>Enables screensaver monitoring. Requires control-peer authorization.</td>
+                    </tr>
+                    <tr>
+                        <td>org.freedesktop.ScreenSaver</td>
+                        <td class="highlight">SetActive(bool)</td>
+                        <td>Method <span class="badge">Privileged</span></td>
+                        <td>Forces screensaver state. Requires control-peer authorization.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Trance Plugins -->
+        <section id="trance-plugins" class="doc-section">
+            <h1>Plugin Development</h1>
+            <p>Trance screensavers are modular plugins compiled as dynamic library assets. Developers can build custom effects using the <code class="highlight">trance-api</code> library interface.</p>
+            <h2>Basic Boilerplate</h2>
+            <div class="code-block">
+                <div class="code-header">src/lib.rs</div>
+                use trance_api::{Plugin, PluginContext, RegisterPlugin};<br><br>
+                struct CustomEffect;<br><br>
+                impl Plugin for CustomEffect {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;fn render(&mut self, ctx: &mut PluginContext) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Your custom Wayland rendering code here<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                }
+            </div>
+        </section>
+
+        <!-- Morphball Usage -->
+        <section id="morphball-usage" class="doc-section">
+            <h1>Morphball Usage</h1>
+            <p>Morphball provides a secure command-line tool and an interactive terminal user interface (TUI) for archive compression and extraction.</p>
+            <h2>CLI Commands</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Arguments</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="highlight">pack</td>
+                        <td>&lt;source&gt; &lt;archive&gt;</td>
+                        <td>Compresses files/directories into ZIP, 7z, or tar.gz format.</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">unpack</td>
+                        <td>&lt;archive&gt; [output_dir]</td>
+                        <td>Securely extracts archive formats.</td>
+                    </tr>
+                    <tr>
+                        <td class="highlight">doctor</td>
+                        <td>[archive]</td>
+                        <td>Performs integrity checks and healing on self-healing archives.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Morphball Sandboxing -->
+        <section id="morphball-security" class="doc-section">
+            <h1>Sandboxing Details</h1>
+            <p>Decompression engines are notoriously complex and present a large surface area for memory safety vulnerabilities. Morphball deploys defense-in-depth measures:</p>
+            <h2>Landlock LSM Sandboxing</h2>
+            <p>During extraction, Morphball enforces Landlock sandboxing on the worker thread. It dynamically restricts process capabilities so that:</p>
+            <ul>
+                <li>Write access is strictly bound to the target output directory.</li>
+                <li>Read access is limited to the input archive and essential system dynamic libraries.</li>
+                <li>All other directory write and network operations are blocked.</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        function switchSection(id) {
+            // Deactivate active nav item
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            // Deactivate active section
+            document.querySelectorAll('.doc-section').forEach(sec => sec.classList.remove('active'));
+
+            // Activate target nav item
+            const targetItem = Array.from(document.querySelectorAll('.nav-item')).find(item => item.textContent.trim().toLowerCase() === id.replace('-', ' ').toLowerCase() || item.getAttribute('onclick').includes(id));
+            if (targetItem) targetItem.classList.add('active');
+
+            // Activate target section
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+</html>
