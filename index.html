@@ -461,22 +461,47 @@
             <p>Install Crateria packages directly using signed repositories for APT and DNF package managers.</p>
             
             <h2>Fedora (DNF Setup)</h2>
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 1: Download the repository configuration</p>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('dnfRepo')">Copy</button>
+                <pre class="code-block" id="dnfRepo">sudo curl -fsSL https://crateria.github.io/packages/rpm/crateria.repo -o /etc/yum.repos.d/crateria.repo</pre>
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 2: Install the packages</p>
             <div class="code-container">
                 <button class="copy-button" onclick="copyCode('dnfInstall')">Copy</button>
-                <pre class="code-block" id="dnfInstall">sudo curl -fsSL https://crateria.github.io/packages/rpm/crateria.repo \
-  -o /etc/yum.repos.d/crateria.repo
-sudo dnf install trance morphball</pre>
+                <pre class="code-block" id="dnfInstall">sudo dnf install trance morphball</pre>
             </div>
 
             <h2>Debian / Ubuntu / Pop!_OS (APT Setup)</h2>
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 1: Create the keyrings directory</p>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('aptKeydir')">Copy</button>
+                <pre class="code-block" id="aptKeydir">sudo mkdir -p /etc/apt/keyrings</pre>
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 2: Download the GPG keyring</p>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('aptKey')">Copy</button>
+                <pre class="code-block" id="aptKey">sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg -o /etc/apt/keyrings/crateria.gpg</pre>
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 3: Register the repository source list</p>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('aptSource')">Copy</button>
+                <pre class="code-block" id="aptSource">echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/crateria.list</pre>
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 4: Update package lists</p>
+            <div class="code-container">
+                <button class="copy-button" onclick="copyCode('aptUpdate')">Copy</button>
+                <pre class="code-block" id="aptUpdate">sudo apt update</pre>
+            </div>
+
+            <p style="margin-bottom: 0.5rem; font-weight: 500;">Step 5: Install the packages</p>
             <div class="code-container">
                 <button class="copy-button" onclick="copyCode('aptInstall')">Copy</button>
-                <pre class="code-block" id="aptInstall">sudo mkdir -p /etc/apt/keyrings
-sudo curl -fsSL https://crateria.github.io/packages/apt/crateria-keyring.gpg \
-  -o /etc/apt/keyrings/crateria.gpg
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/crateria.gpg] https://crateria.github.io/packages/apt stable main" \
-  | sudo tee /etc/apt/sources.list.d/crateria.list
-sudo apt update && sudo apt install trance morphball</pre>
+                <pre class="code-block" id="aptInstall">sudo apt install trance morphball</pre>
             </div>
         </section>
 
